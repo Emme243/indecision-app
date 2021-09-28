@@ -1,5 +1,5 @@
 <template>
-  <img src="https://via.placeholder.com/250" alt="BG" />
+  <img v-if="image" :src="image" alt="BG" />
   <div class="bg-dark"></div>
 
   <div class="indecision-container">
@@ -29,12 +29,14 @@ interface answerResponse {
   image: string;
 }
 const answer = ref<string>('');
+const image = ref<string>('');
 async function getAnswer() {
   answer.value = 'Pensando...';
-  const { answer: answerRes, image }: answerResponse = await fetch('https://yesno.wtf/api').then(
-    r => r.json()
-  );
+  const { answer: answerRes, image: imageRes }: answerResponse = await fetch(
+    'https://yesno.wtf/api'
+  ).then(r => r.json());
   answer.value = answerRes;
+  image.value = imageRes;
 }
 </script>
 
