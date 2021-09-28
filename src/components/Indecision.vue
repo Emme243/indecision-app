@@ -3,12 +3,12 @@
   <div class="bg-dark"></div>
 
   <div class="indecision-container">
-    <input type="text" placeholder="Házme una pregunta" v-model="question" />
-    <p>Recuerda terminar con un signo de interrogación (?)</p>
+    <input type="text" placeholder="Make a question" v-model="question" />
+    <p>Remember finish your question with an (?)</p>
 
-    <div>
+    <div v-if="isValidQuestion">
       <h2>{{ question }}</h2>
-      <h1>{{ answer }}</h1>
+      <h1>{{ answer }}!</h1>
     </div>
   </div>
 </template>
@@ -17,12 +17,19 @@
 import { ref } from '@vue/reactivity';
 import { watch } from '@vue/runtime-core';
 
+// isValidQuestioin block
+const isValidQuestion = ref<boolean>(false);
+
+// question block
 const question = ref<string>('');
 watch(question, function (value) {
+  isValidQuestion.value = false;
   if (!value.endsWith('?')) return;
+  isValidQuestion.value = true;
   getAnswer();
 });
 
+// answer and image block
 interface answerResponse {
   answer: string;
   forced: boolean;
