@@ -8,7 +8,7 @@
 
     <div>
       <h2>{{ question }}</h2>
-      <h1>Si, No, ...pensando</h1>
+      <h1>{{ answer }}</h1>
     </div>
   </div>
 </template>
@@ -19,10 +19,23 @@ import { watch } from '@vue/runtime-core';
 
 const question = ref<string>('');
 watch(question, function (value) {
-  if (!value.includes('?')) return;
-
-  // TODO: REALIZAR PETICION HTTP
+  if (!value.endsWith('?')) return;
+  getAnswer();
 });
+
+interface answerResponse {
+  answer: string;
+  forced: boolean;
+  image: string;
+}
+const answer = ref<string>('');
+async function getAnswer() {
+  answer.value = 'Pensando...';
+  const { answer: answerRes, image }: answerResponse = await fetch('https://yesno.wtf/api').then(
+    r => r.json()
+  );
+  answer.value = answerRes;
+}
 </script>
 
 <style scoped>
