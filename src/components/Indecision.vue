@@ -1,14 +1,26 @@
 <template>
-  <img v-if="image" :src="image" alt="BG" />
-  <div class="bg-dark"></div>
+  <div class="bg-gray-800 h-screen text-gray-200 py-10 px-5">
+    <img
+      v-if="image"
+      :src="image"
+      alt="Yes or No Gif"
+      class="fixed top-0 left-0 z-0 w-screen h-screen object-cover"
+    />
+    <div class="bg-dark w-screen h-screen bg-black opacity-40 fixed top-0 left-0 z-10"></div>
 
-  <div class="indecision-container">
-    <input type="text" placeholder="Make a question" v-model="question" />
-    <p>Remember finish your question with an (?)</p>
+    <div class="z-20 relative text-center">
+      <input
+        type="text"
+        placeholder="Make a question"
+        v-model="question"
+        class="rounded px-3 py-1 text-gray-900 placeholder-gray-400 text-lg w-auto outline-none"
+      />
+      <p class="text-xl mt-2">Remember finish your question with an (?)</p>
 
-    <div v-if="isValidQuestion">
-      <h2>{{ question }}</h2>
-      <h1>{{ answer }}!</h1>
+      <div v-show="isValidQuestion" class="mt-8">
+        <h2 class="text-3xl">{{ question }}</h2>
+        <h1 class="text-6xl uppercase">{{ answer }}!</h1>
+      </div>
     </div>
   </div>
 </template>
@@ -30,7 +42,7 @@ watch(question, function (value) {
 });
 
 // answer and image block
-interface answerResponse {
+interface yesnoResponseType {
   answer: string;
   forced: boolean;
   image: string;
@@ -38,58 +50,11 @@ interface answerResponse {
 const answer = ref<string>('');
 const image = ref<string>('');
 async function getAnswer() {
-  answer.value = 'Pensando...';
-  const { answer: answerRes, image: imageRes }: answerResponse = await fetch(
+  answer.value = 'Let me think...';
+  const { answer: answerResponse, image: imageResponse }: yesnoResponseType = await fetch(
     'https://yesno.wtf/api'
   ).then(r => r.json());
-  answer.value = answerRes;
-  image.value = imageRes;
+  answer.value = answerResponse;
+  image.value = imageResponse;
 }
 </script>
-
-<style scoped>
-img,
-.bg-dark {
-  height: 100vh;
-  left: 0px;
-  max-height: 100%;
-  max-width: 100%;
-  position: fixed;
-  top: 0px;
-  width: 100vw;
-}
-
-.bg-dark {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.indecision-container {
-  position: relative;
-  z-index: 99;
-}
-
-input {
-  width: 250px;
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: none;
-}
-input:focus {
-  outline: none;
-}
-
-p {
-  color: white;
-  font-size: 20px;
-  margin-top: 0px;
-}
-
-h1,
-h2 {
-  color: white;
-}
-
-h2 {
-  margin-top: 150px;
-}
-</style>
