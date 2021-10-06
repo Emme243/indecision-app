@@ -1,29 +1,6 @@
-# fundamentos
+# Indecision app
 
-## Project setup
-```
-npm install
-```
+### Wanna know your future?
+Awesome! This is the app that you were looking for. Just ask a few questions and that's it!
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://indecision-app-emme.netlify.app
